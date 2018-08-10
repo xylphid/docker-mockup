@@ -57,6 +57,24 @@ If you have a licence you can set it with the following command :
 $ ./mockup.sh software.exe -n "LICENSENAME" -k "LICENSEKEY"
 ```
 
+## Persistent data
+
+If you want to save your datas, you can mount the user folder as follow :
+```bash
+docker run --rm -d \
+    --name mockup \
+    -e DISPLAY \
+    -e "LICENSENAME=${LICENSENAME}" \
+    -e "LICENSEKEY=${LICENSEKEY}" \
+    -e XAUTHORITY=${XAUTH} \
+    -v ${XAUTH}:${XAUTH}:rw \
+    -v $XSOCK:$XSOCK:rw \
+    -v /safe/data/path:/home/wine/.wine/drive_c/users/wine \
+    --device /dev/snd:/dev/snd \
+    xylphid/mockup $@
+```
+
+
 ## Image inheritance
 
 This docker image inherits from [wine](https://hub.docker.com/r/xylphid/wine) image
